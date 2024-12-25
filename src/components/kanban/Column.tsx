@@ -95,40 +95,42 @@ const Column = ({ title, bgColor, column, cards, setCards }: ColumnProps) => {
   const filteredCards = cards.filter((card) => card.column === column);
 
   return (
-    <div className="rounded-xl bg-zinc-100 dark:bg-zinc-900 overflow-hidden flex flex-col w-full h-full max-w-[21.5rem] shrink-0">
+    <div className="rounded-xl overflow-hidden flex flex-col w-full h-min max-h-full max-w-[21.5rem] shrink-0">
       <div className={`${bgColorClass} w-full flex items-baseline justify-between px-4 py-[1.10rem]`}>
         <h2 className="text-white text-xs uppercase tracking-wide font-medium">{title}</h2>
         <span className="text-white font-medium text-xs">({filteredCards.length})</span>
       </div>
-      <motion.div
-        layout
-        onDrop={handleDragEnd}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-        className="p-3 overflow-y-auto h-full overflow-x-hidden"
-      >
-        {filteredCards.map((card) => (
-          <Card key={card.id} {...card} handleDragStart={handleDragStart} cards={cards} setCards={setCards} />
-        ))}
-        <DropIndicator beforeId={-1} column={column} />
-        <motion.div layout className="py-1">
-          {isAddingCard ? (
-            <form onSubmit={handleSubmission}>
-              <input
-                name="card-title"
-                placeholder="Enter a card title"
-                type="text"
-                onBlur={() => setIsAddingCard(false)}
-                autoFocus={true}
-                spellCheck={false}
-                className="w-full py-2.5 px-3 ring-1 ring-inset sm:text-sm transition outline-none rounded-md focus:ring-2 focus:ring-indigo-500"
-              />
-            </form>
-          ) : (
-            <Button onClick={() => setIsAddingCard(true)} variant="secondaryV2" className="w-full">
-              Add a card
-            </Button>
-          )}
+      <motion.div layout className="bg-zinc-100 dark:bg-zinc-900">
+        <motion.div
+          layout
+          onDrop={handleDragEnd}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          className="p-3 overflow-y-auto h-full overflow-x-hidden"
+        >
+          {filteredCards.map((card) => (
+            <Card key={card.id} {...card} handleDragStart={handleDragStart} cards={cards} setCards={setCards} />
+          ))}
+          <DropIndicator beforeId={-1} column={column} />
+          <motion.div layout className="py-1">
+            {isAddingCard ? (
+              <form onSubmit={handleSubmission}>
+                <input
+                  name="card-title"
+                  placeholder="Enter a card title"
+                  type="text"
+                  onBlur={() => setIsAddingCard(false)}
+                  autoFocus={true}
+                  spellCheck={false}
+                  className="w-full py-2.5 px-3 ring-1 ring-inset sm:text-sm transition outline-none rounded-md focus:ring-2 focus:ring-indigo-500"
+                />
+              </form>
+            ) : (
+              <Button onClick={() => setIsAddingCard(true)} variant="secondaryV2" className="w-full">
+                Add a card
+              </Button>
+            )}
+          </motion.div>
         </motion.div>
       </motion.div>
     </div>
